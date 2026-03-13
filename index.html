@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pharmacy Costing Calculator — Painted Pieces Art</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d5a7b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Pharmacy Calc">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════ -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-left">
+        <img src="PPAG_CAL_LOGO1.png" alt="Painted Pieces Art & Graphics" class="header-logo">
+        <div class="header-text">
+          <h1>Pharmacy Window Graphics</h1>
+          <div class="sub">Costing Calculator</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <!-- Document Type Toggle -->
+        <div class="doc-type-toggle">
+          <label class="doc-type-label">Document Type:</label>
+          <div class="toggle-buttons">
+            <button class="toggle-btn active" data-type="estimate" id="btnEstimate">
+              📋 Estimate
+            </button>
+            <button class="toggle-btn" data-type="actual" id="btnActual">
+              ✓ Actual
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main">
+
+    <!-- ═══════════════════════════════════════
+         CLIENT / JOB INFO CARD
+    ═══════════════════════════════════════ -->
+    <section class="card client-card">
+      <h2 class="card-title">
+        <span class="card-icon">🏢</span> Client / Job Info
+      </h2>
+
+      <div class="client-grid">
+
+        <div class="field field--full">
+          <label for="jobName">Job Name</label>
+          <div class="input-wrap">
+            <input type="text" id="jobName" placeholder="e.g. CVS Pharmacy – Main St" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="field field--full">
+          <label for="jobAddress">Address</label>
+          <div class="input-wrap">
+            <input type="text" id="jobAddress" placeholder="e.g. 123 Main St, Springfield, IL 62701" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="contactName">Contact Name</label>
+          <div class="input-wrap">
+            <input type="text" id="contactName" placeholder="e.g. Jane Smith" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="contactPhone">Phone</label>
+          <div class="input-wrap">
+            <input type="tel" id="contactPhone" placeholder="e.g. (555) 123-4567" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="contactEmail">Email</label>
+          <div class="input-wrap">
+            <input type="email" id="contactEmail" placeholder="e.g. jane@pharmacy.com" autocomplete="off" />
+          </div>
+        </div>
+
+      </div><!-- /.client-grid -->
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         INPUTS CARD
+    ═══════════════════════════════════════ -->
+    <section class="card inputs-card">
+      <h2 class="card-title">
+        <span class="card-icon">📐</span> Job Details
+      </h2>
+
+      <div class="input-grid">
+
+        <!-- Square Footage -->
+        <div class="field field--primary">
+          <label for="squareFootage">Total Square Footage</label>
+          <div class="input-wrap">
+            <input type="number" id="squareFootage" placeholder="e.g. 82"
+                   min="0" step="0.5" />
+            <span class="unit">sq ft</span>
+          </div>
+        </div>
+
+        <!-- Admin Hours -->
+        <div class="field">
+          <label for="adminHours">Admin Hours</label>
+          <div class="input-wrap">
+            <input type="number" id="adminHours" value="1" min="0" step="0.5" />
+            <span class="unit" id="label-adminRate">@ $50/hr</span>
+          </div>
+        </div>
+
+        <!-- Computer Hours -->
+        <div class="field">
+          <label for="computerHours">Computer / Design Hours</label>
+          <div class="input-wrap">
+            <input type="number" id="computerHours" value="6" min="0" step="0.5" />
+            <span class="unit" id="label-computerRate">@ $35/hr</span>
+          </div>
+        </div>
+
+        <!-- Install Cost -->
+        <div class="field">
+          <label for="installCost">Install Cost <span class="label-sub">(from printer)</span></label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="installCost" value="" placeholder="0.00"
+                   min="0" step="0.01" />
+          </div>
+        </div>
+
+        <!-- Other Charges -->
+        <div class="field">
+          <label for="otherCharges">Other Charges <span class="label-sub">(misc. expenses)</span></label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="otherCharges" value="" placeholder="0.00"
+                   min="0" step="0.01" />
+          </div>
+        </div>
+
+        <!-- Commission -->
+        <div class="field">
+          <label for="commission">Commission</label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="commission" value="" placeholder="0.00"
+                   min="0" step="0.01" />
+          </div>
+        </div>
+
+        <!-- Vinyl Type -->
+        <div class="field field--checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="usePerforated" />
+            <span class="checkbox-custom"></span>
+            Use Perforated Vinyl <span class="label-sub">(vs. standard)</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="ipaMember" />
+            <span class="checkbox-custom"></span>
+            IPA Member <span class="label-sub">(10% discount on sell price)</span>
+          </label>
+        </div>
+
+      </div><!-- /.input-grid -->
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         SETTINGS (collapsible)
+    ═══════════════════════════════════════ -->
+    <section class="card settings-card">
+      <button class="settings-toggle" id="settingsToggle" aria-expanded="false">
+        <span class="settings-toggle-icon">⚙️</span>
+        Settings
+        <span class="toggle-arrow" id="settingsIcon">▼</span>
+      </button>
+
+      <div class="settings-panel" id="settingsPanel">
+        <div class="settings-grid">
+          <div class="field">
+            <label for="setting-vinyl">Standard Vinyl Cost</label>
+            <div class="input-wrap">
+              <span class="prefix">$</span>
+              <input type="number" id="setting-vinyl" step="0.01" min="0" />
+              <span class="unit">/ sq ft</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="setting-perforated">Perforated Vinyl Cost</label>
+            <div class="input-wrap">
+              <span class="prefix">$</span>
+              <input type="number" id="setting-perforated" step="0.01" min="0" />
+              <span class="unit">/ sq ft</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="setting-adminRate">Admin Rate</label>
+            <div class="input-wrap">
+              <span class="prefix">$</span>
+              <input type="number" id="setting-adminRate" step="1" min="0" />
+              <span class="unit">/ hr</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="setting-compRate">Computer / Design Rate</label>
+            <div class="input-wrap">
+              <span class="prefix">$</span>
+              <input type="number" id="setting-compRate" step="1" min="0" />
+              <span class="unit">/ hr</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn--secondary" id="btnSaveSettings">💾 Save Settings</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         RESULTS (hidden until sq footage entered)
+    ═══════════════════════════════════════ -->
+    <div id="resultsSection" class="results-section">
+
+      <!-- Summary Card -->
+      <section class="card summary-card">
+        <h2 class="card-title">
+          <span class="card-icon">📊</span> Cost Summary
+        </h2>
+
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span class="summary-label">Total Hours</span>
+            <span class="summary-value" id="sum-totalHours">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Total Sq Ft</span>
+            <span class="summary-value" id="sum-squareFt">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Vinyl Cost</span>
+            <span class="summary-value" id="sum-vinylCost">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Admin Cost</span>
+            <span class="summary-value" id="sum-adminCost">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Design Cost</span>
+            <span class="summary-value" id="sum-computerCost">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Total Labor</span>
+            <span class="summary-value" id="sum-totalLabor">—</span>
+          </div>
+          <div class="summary-item summary-item--highlight">
+            <span class="summary-label">Estimated Cost</span>
+            <span class="summary-value" id="sum-estimatedCost">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Other Charges</span>
+            <span class="summary-value" id="sum-otherCharges">—</span>
+          </div>
+          <div class="summary-item summary-item--highlight">
+            <span class="summary-label">Final Cost <span class="label-sub">(w/ install + other)</span></span>
+            <span class="summary-value" id="sum-finalCost">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Commission</span>
+            <span class="summary-value" id="sum-commission">—</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════
+           VARIANCE SUMMARY (Actual mode only)
+      ═══════════════════════════════════════ -->
+      <section class="card variance-card" id="varianceSection" style="display: none;">
+        <h2 class="card-title">
+          <span class="card-icon">📊</span> Estimate vs Actual Comparison
+        </h2>
+
+        <div class="variance-overview">
+          <div class="variance-stat">
+            <div class="stat-label">Original Estimate</div>
+            <div class="stat-value" id="varianceEstimate">$0.00</div>
+          </div>
+          <div class="variance-stat">
+            <div class="stat-label">Actual Final Cost</div>
+            <div class="stat-value" id="varianceActual">$0.00</div>
+          </div>
+          <div class="variance-stat variance-stat--highlight">
+            <div class="stat-label">Variance</div>
+            <div class="stat-value" id="varianceAmount">$0.00</div>
+          </div>
+        </div>
+
+        <div class="changes-list">
+          <h4>Detailed Changes:</h4>
+          <div id="changesList">
+            <p class="no-changes">No changes from estimate</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing Tiers Card -->
+      <section class="card tiers-card">
+        <h2 class="card-title">
+          <span class="card-icon">💰</span> Pricing Tiers
+        </h2>
+        <p class="tiers-note">40% GM row is highlighted — Steven's standard tier. IPA discounted price shown in parentheses where applicable.</p>
+
+        <div class="table-scroll">
+          <table class="tiers-table" id="tiersTable">
+            <thead>
+              <tr>
+                <th>GM Tier</th>
+                <th>Retail w/Profit</th>
+                <th>Install</th>
+                <th>Other</th>
+                <th>Overhead</th>
+                <th>Sell Price</th>
+                <th>Net Profit</th>
+              </tr>
+            </thead>
+            <tbody id="tiersTableBody">
+              <!-- Populated by calculator.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Action Buttons -->
+      <div class="actions">
+        <button class="btn btn--secondary" id="btnSaveJob">
+          💾 Save Job
+        </button>
+        <button class="btn btn--secondary" id="btnLoadJob">
+          📂 Load Job
+        </button>
+        <button class="btn btn--primary" id="btnExportPDF">
+          📄 Export to PDF
+        </button>
+        <button class="btn btn--primary" id="btnExportExcel">
+          📥 Export to Excel
+        </button>
+        <button class="btn btn--ghost" id="btnReset">
+          🔄 Reset Form
+        </button>
+      </div>
+
+      <!-- Hidden file input for Load Job -->
+      <input type="file" id="fileInput" accept=".json" style="display: none;" />
+
+    </div><!-- /#resultsSection -->
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Painted Pieces Art &mdash; Pharmacy Window Graphics Pricing Tool</p>
+    <p class="footer-sub">MURALS &bull; FAUX TECHNIQUES &bull; HANDPAINTED BUILDINGS &bull; WINDOW GRAPHICS &bull; DESIGN &amp; COLOR CONSULTING</p>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Conversion Modal -->
+  <div class="modal-overlay" id="conversionModal" style="display: none;">
+    <div class="modal-content">
+      <h3>Convert to Actual?</h3>
+      <p>This is an <strong>ESTIMATE</strong> file. Would you like to:</p>
+      <div class="modal-buttons">
+        <button class="btn btn--ghost" id="btnLoadAsEstimate">
+          Load as Estimate
+        </button>
+        <button class="btn btn--primary" id="btnConvertToActual">
+          Convert to Actual
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <script src="calculator.js"></script>
+  <script src="export.js"></script>
+  <script src="pdf-export.js"></script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('✓ Service Worker registered'))
+        .catch(err => console.log('✗ Service Worker failed:', err));
+    });
+  }
+  </script>
+
+</body>
+</html>
